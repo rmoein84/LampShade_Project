@@ -26,7 +26,6 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchUrl": "https://localhost:7127/Administration"
     },
     "IIS Express": {
       "commandName": "IISExpress",
