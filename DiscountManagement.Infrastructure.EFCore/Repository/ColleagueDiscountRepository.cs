@@ -19,11 +19,11 @@ namespace DiscountManagement.Infrastructure.EFCore.Repository
 
         public EditColleagueDiscount GetDetails(long id)
         {
-            return _context.ColleagueDiscounts.Select(d => new EditColleagueDiscount
+            return _context.ColleagueDiscounts.Select(x => new EditColleagueDiscount
             {
-                Id = id,
-                DiscountRate = d.DiscountRate,
-                ProductId = id
+                Id = x.Id,
+                DiscountRate = x.DiscountRate,
+                ProductId = x.ProductId
             })
                 .FirstOrDefault(x => x.Id == id);
         }
@@ -33,9 +33,11 @@ namespace DiscountManagement.Infrastructure.EFCore.Repository
             var products = _shopContext.Products.Select(x => new { x.Id, x.Title }).ToList();
             var query = _context.ColleagueDiscounts.Select(x => new ColleagueDiscountViewModel
             {
+                Id = x.Id,
                 ProductId = x.ProductId,
                 DiscountRate = x.DiscountRate,
                 CreationDate = x.CreationDate.ToFarsi(),
+                IsRemoved = x.IsRemoved,
             });
             if (searchModel.ProductId > 0)
                 query = query.Where(x => x.ProductId == searchModel.ProductId);
