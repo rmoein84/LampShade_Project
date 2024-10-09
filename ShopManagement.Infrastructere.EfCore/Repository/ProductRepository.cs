@@ -1,4 +1,5 @@
-﻿using _0_Framework.Infrastructure;
+﻿using _0_Framework.Application;
+using _0_Framework.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using ShopManagement.Application.Contracts.Product;
 using ShopManagement.Domain.ProductAgg;
@@ -55,7 +56,7 @@ namespace ShopManagement.Infrastructere.EFCore.Repository
                 Picture = x.Picture,
                 Category = x.Category.Title,
                 IsInStock = x.IsInStock,
-                CreationDate = x.CreationDate.ToString()
+                CreationDate = x.CreationDate.ToFarsi()
             });
             if (!string.IsNullOrWhiteSpace(searchMoodel.Title))
                 query = query.Where(x => x.Title.Contains(searchMoodel.Title));
