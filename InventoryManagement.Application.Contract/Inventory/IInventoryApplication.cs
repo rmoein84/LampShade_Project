@@ -8,6 +8,7 @@ namespace InventoryManagement.Application.Contract.Inventory
         OperationResult Edit(EditInventory command);
         OperationResult Increase(IncreaseInventory command);
         OperationResult Decrease(List<DecreaseInventory> command);
+        OperationResult Decrease(DecreaseInventory command);
         EditInventory GetDetails(long id);
         //OperationResult IsInStock(long id);
         //OperationResult NotInStock(long id);
