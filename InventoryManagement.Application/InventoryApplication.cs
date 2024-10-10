@@ -46,7 +46,7 @@ namespace InventoryManagement.Application
             const long operatorId = 2;
             foreach (var item in command)
             {
-                var inventory = _inventoryRepository.GetBy(item.ProductId);
+                var inventory = _inventoryRepository.Get(item.InventoryId);
                 inventory.Decrease(item.Count, operatorId, item.Description, item.OrderId);
             }
             _inventoryRepository.SaveChanges();
@@ -56,7 +56,7 @@ namespace InventoryManagement.Application
         public OperationResult Decrease(DecreaseInventory command)
         {
             var operation = new OperationResult();
-            var inventory = _inventoryRepository.GetBy(command.ProductId);
+            var inventory = _inventoryRepository.Get(command.InventoryId);
             if (inventory == null)
                 return operation.Failed(ApplicationMessages.RecordNotFound);
             const long operatorId = 1;
@@ -80,6 +80,11 @@ namespace InventoryManagement.Application
         public List<InventoryViewModel> Search(InventorySearchModel searchModel)
         {
             return _inventoryRepository.Search(searchModel);
+        }
+
+        public List<InventoryOperationViewModel> GetOperationLog(long inventoryId)
+        {
+            return _inventoryRepository.GetOperationLog(inventoryId);
         }
     }
 }

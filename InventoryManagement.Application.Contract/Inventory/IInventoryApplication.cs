@@ -10,8 +10,7 @@ namespace InventoryManagement.Application.Contract.Inventory
         OperationResult Decrease(List<DecreaseInventory> command);
         OperationResult Decrease(DecreaseInventory command);
         EditInventory GetDetails(long id);
-        //OperationResult IsInStock(long id);
-        //OperationResult NotInStock(long id);
         List<InventoryViewModel> Search(InventorySearchModel searchModel);
+        List<InventoryOperationViewModel> GetOperationLog(long inventoryId);
     }
 }

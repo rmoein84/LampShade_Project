@@ -22,6 +22,7 @@
             Description = description;
             OrderID = orderID;
             InventoryId = inventoryId;
+            OperationDate = DateTime.Now;
         }
     }
 }
