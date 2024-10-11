@@ -1,18 +1,27 @@
 ﻿@font-face {
     font-family: 'IranSans';
-    src: url('../../fonts/IranianSans.eot'), url('../../fonts/IranianSans.eot') format('embedded-opentype'), url('../../fonts/IranianSans.woff') format('woff'), url('../../fonts/IranianSans.ttf') format('truetype'), url('../../fonts/IranianSans.svg') format('svg');
+    src: url('../fonts/IRANSans.ttf'), url('../fonts/IRANSans.ttf') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }
+
 body {
     direction: rtl;
     text-align: right;
     font-family: IranSans
 }
 
-.hero-slider-content { text-align: right; }
+.fm-iransans {
+    font-family: IranSans
+}
 
-.hero-slider-area { direction: ltr; }
+.hero-slider-content {
+    text-align: right;
+}
+
+.hero-slider-area {
+    direction: ltr;
+}
 
 .hero-slider-button i {
     margin-left: 5px;
@@ -29,19 +38,23 @@ body {
     left: unset;
 }
 
-.single-category-item__content a i {
-    margin-right: 5px;
-    margin-left: unset;
-}
+    .single-category-item__content a i {
+        margin-right: 5px;
+        margin-left: unset;
+    }
 
-.single-grid-product__category-rating .rating { float: left; }
+.single-grid-product__category-rating .rating {
+    float: left;
+}
 
 .single-grid-product__price .discounted-price {
     margin-right: unset;
     margin-left: 10px;
 }
 
-.tab-slider-wrapper .tab-product-navigation .nav .nav-item:last-child { margin-right: 10px; }
+.tab-slider-wrapper .tab-product-navigation .nav .nav-item:last-child {
+    margin-right: 10px;
+}
 
 .header-cart-icon .counter {
     left: 0;
@@ -68,22 +81,24 @@ body {
     right: unset;
 }
 
-.copyright-social-wrapper .copyright-social li:last-child { margin-right: 40px; }
+.copyright-social-wrapper .copyright-social li:last-child {
+    margin-right: 40px;
+}
 
 .navigation-menu-wrapper .sub-menu {
     left: unset;
     right: -20px;
 }
 
-.navigation-menu-wrapper .sub-menu li.menu-item-has-children > a::after {
-    float: left;
-    content: '\f3d2';
-}
+    .navigation-menu-wrapper .sub-menu li.menu-item-has-children > a::after {
+        float: left;
+        content: '\f3d2';
+    }
 
-.navigation-menu-wrapper .sub-menu .sub-menu {
-    right: 100%;
-    left: auto;
-}
+    .navigation-menu-wrapper .sub-menu .sub-menu {
+        right: 100%;
+        left: auto;
+    }
 
 .navigation-menu-wrapper nav > ul > li.menu-item-has-children > a::after {
     float: left;
@@ -102,9 +117,9 @@ body {
     justify-content: center;
 }
 
-.single-grid-product__image .hover-icons a {
-    border-right: unset;
-}
+    .single-grid-product__image .hover-icons a {
+        border-right: unset;
+    }
 
 .product-description-review-container nav .nav-tabs a.nav-link {
     margin-right: unset;
@@ -115,9 +130,9 @@ body {
     float: right;
 }
 
-.rating-list .sin-list:last-child {
-    margin-right: 30px;
-}
+    .rating-list .sin-list:last-child {
+        margin-right: 30px;
+    }
 
 .rating-author {
     float: right;
