@@ -3,5 +3,7 @@
     public interface IProductQuery
     {
         List<ProductQueryModel> GetLatestProducts();
+        List<ProductQueryModel> Search(string value);
+       
     }
 }

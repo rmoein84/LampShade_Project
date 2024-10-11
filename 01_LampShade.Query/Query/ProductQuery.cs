@@ -2,6 +2,7 @@
 using _01_LampShade.Query.Contracts.Product;
 using DiscountManagement.Infrastructure.EFCore;
 using InventoryManagement.Infrasturcture.EFCore;
+using Microsoft.EntityFrameworkCore;
 using ShopManagement.Domain.ProductAgg;
 using ShopManagement.Infrastructere.EFCore;
 
@@ -21,7 +22,25 @@ namespace _01_LampShade.Query.Query
 
         public List<ProductQueryModel> GetLatestProducts()
         {
-            var products = _context.Products.OrderByDescending(x=>x.Id).Take(6).ToList();
+            var products = _context.Products
+                .AsNoTracking()
+                .Include(x => x.Category)
+                .OrderByDescending(x => x.Id)
+                .Take(6)
+                .ToList();
+            return MapProducts(products, _inventoryContext, _discountContext);
+        }
+
+        public List<ProductQueryModel> Search(string value)
+        {
+            var products = _context.Products
+                .AsNoTracking()
+                .Include(x => x.Category)
+                .OrderByDescending(x => x.Id)
+                .ToList();
+
+            if (!string.IsNullOrWhiteSpace(value))
+                products = products.Where(x => x.Title.Contains(value)).ToList();
             return MapProducts(products, _inventoryContext, _discountContext);
         }
         private static List<ProductQueryModel> MapProducts(List<Product> products,
@@ -30,18 +49,21 @@ namespace _01_LampShade.Query.Query
             var result = new List<ProductQueryModel>();
             foreach (var product in products)
             {
-                var productPrice = inventoryContext.Inventory.Select(x =>
-                new { x.ProductId, x.UnitPrice }).FirstOrDefault(x =>
-                x.ProductId == product.Id);
-                var discount = discountContext.CustomerDiscounts
-                    .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
-                    .Select(x => new { x.ProductId, x.DiscountRate })
+                var productPrice = inventoryContext.Inventory
+                    .AsNoTracking()
+                    .Select(x => new { x.ProductId, x.UnitPrice })
                     .FirstOrDefault(x => x.ProductId == product.Id);
+                var discount = discountContext.CustomerDiscounts
+                   .AsNoTracking()
+                   .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
+                   .Select(x => new { x.ProductId, x.DiscountRate, x.EndDate })
+                   .FirstOrDefault(x => x.ProductId == product.Id);
                 var item = new ProductQueryModel
                 {
                     Id = product.Id,
                     Title = product.Title,
                     Category = product.Category.Title,
+                    CategorySlug = product.Category.Slug,
                     Picture = product.Picture,
                     PictureAlt = product.PictureAlt,
                     PictureTitle = product.PictureTitle,
@@ -53,6 +75,7 @@ namespace _01_LampShade.Query.Query
                     if (discount != null)
                     {
                         item.DiscountRate = discount.DiscountRate;
+                        item.DiscountExpireDate = discount.EndDate.ToString();
                         var discountAmount = Math.Round((productPrice.UnitPrice * discount.DiscountRate) / 100);
                         item.PriceWithDiscount = (productPrice.UnitPrice - discountAmount).ToMoney();
                     }

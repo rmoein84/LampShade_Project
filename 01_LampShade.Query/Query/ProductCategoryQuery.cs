@@ -28,20 +28,23 @@ namespace _01_LampShade.Query.Query
 
         public List<ProductCategoryQueryModel> GetProductCategories()
         {
-            return _context.ProductCategories.Select(x => new ProductCategoryQueryModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Picture = x.Picture,
-                PictureAlt = x.PictureAlt,
-                PictureTitle = x.PictureTitle,
-                Slug = x.Slug,
-            }).ToList();
+            return _context.ProductCategories
+                .AsNoTracking()
+                .Select(x => new ProductCategoryQueryModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Picture = x.Picture,
+                    PictureAlt = x.PictureAlt,
+                    PictureTitle = x.PictureTitle,
+                    Slug = x.Slug,
+                }).ToList();
         }
 
         public List<ProductCategoryQueryModel> GetProductCategoriesWithProducts()
         {
             return _context.ProductCategories
+                .AsNoTracking()
                 .Include(x => x.Products)
                 .ThenInclude(x => x.Category)
                 .Select(x => new ProductCategoryQueryModel
@@ -55,6 +58,7 @@ namespace _01_LampShade.Query.Query
         public ProductCategoryQueryModel GetProductCategoriesWithProductsBy(string slug)
         {
             var result = _context.ProductCategories
+                .AsNoTracking()
                 .Include(x => x.Products)
                 .ThenInclude(x => x.Category)
                 .Select(x => new ProductCategoryQueryModel
@@ -67,7 +71,7 @@ namespace _01_LampShade.Query.Query
                     MetaDescription = x.MetaDescription,
                     Slug = x.Slug,
                 })
-                .FirstOrDefault(x=>x.Slug == slug);
+                .FirstOrDefault(x => x.Slug == slug);
             return result;
         }
         private static List<ProductQueryModel> MapProducts(List<Product> products,
@@ -92,6 +96,7 @@ namespace _01_LampShade.Query.Query
                     PictureAlt = product.PictureAlt,
                     PictureTitle = product.PictureTitle,
                     Slug = product.Slug,
+                    CategorySlug = product.Category.Slug,
                 };
                 if (productPrice != null)
                 {
