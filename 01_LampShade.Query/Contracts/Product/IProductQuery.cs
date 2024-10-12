@@ -4,6 +4,6 @@
     {
         List<ProductQueryModel> GetLatestProducts();
         List<ProductQueryModel> Search(string value);
-       
+        ProductQueryModel GetDetails(string slug);
     }
 }

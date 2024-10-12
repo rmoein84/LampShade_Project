@@ -1,4 +1,5 @@
-﻿using _0_Framework.Domain;
+﻿
+using _0_Framework.Domain;
 using ShopManagement.Domain.ProductAgg;
 
 namespace ShopManagement.Domain.ProductCategoryAgg
@@ -35,7 +36,8 @@ namespace ShopManagement.Domain.ProductCategoryAgg
         {
             Title = title;
             Description = description;
-            Picture = picture;
+            if (!string.IsNullOrWhiteSpace(picture))
+                Picture = picture;
             PictureAlt = pictureAlt;
             PictureTitle = pictureTitle;
             Keywords = keywords;

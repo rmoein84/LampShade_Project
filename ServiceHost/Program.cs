@@ -1,5 +1,7 @@
+using _0_Framework.Application;
 using DiscountManagement.Configuration;
 using InventoryManagement.Configuration;
+using ServiceHost;
 using ShopManagement.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ var connectionString = builder.Configuration.GetConnectionString("LampShadeDb");
 ShopManagementBootstrapper.Configure(builder.Services, connectionString);
 DiscountManagementBootstrapper.Configure(builder.Services, connectionString);
 InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
+
+builder.Services.AddTransient<IFileUploader, FileUploader>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

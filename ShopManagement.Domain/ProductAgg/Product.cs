@@ -37,14 +37,15 @@ namespace ShopManagement.Domain.ProductAgg
             CategoryId = categoryId;
         }
         public void Edit(string title, string code, string shortDescription,
-            string description, string piture, string pitureAlt, string pitureTitle, string slug,
+            string description, string picture, string pitureAlt, string pitureTitle, string slug,
             string keywords, string metaDescription, long categoryId)
         {
             Title = title;
             Code = code;
             ShortDescription = shortDescription;
             Description = description;
-            Picture = piture;
+            if(!string.IsNullOrWhiteSpace(picture))
+                Picture = picture;
             PictureAlt = pitureAlt;
             PictureTitle = pitureTitle;
             Slug = slug;

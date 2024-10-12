@@ -84,5 +84,14 @@ namespace _01_LampShade.Query.Query
             }
             return result;
         }
+        public ProductQueryModel GetDetails(string slug)
+        {
+            var products = _context.Products
+                .AsNoTracking()
+                .Include(x => x.Category)
+                .ToList();
+            return MapProducts(products, _inventoryContext, _discountContext)
+                .FirstOrDefault(x => x.Slug == slug);
+        }
     }
 }
