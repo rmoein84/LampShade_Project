@@ -76,7 +76,7 @@
                                                                 <span class="sale">@product.DiscountRate%-</span>
                                                             </div>
                                                         }
-                                                        <a href="single-product.html">
+                                                        <a asp-page="/Product" asp-route-slug="@product.Slug">
                                                             <img src="~/uploadedFiles/@product.Picture" class="img-fluid"
                                                                  alt="@product.PictureAlt" title="@product.PictureTitle">
                                                         </a>
@@ -96,7 +96,7 @@
                                                         </div>
 
                                                         <h3 class="single-grid-product__title">
-                                                            <a>
+                                                            <a asp-page="/Product" asp-route-slug="@product.Slug">
                                                                 @product.Title
                                                             </a>
                                                         </h3>
