@@ -20,7 +20,8 @@ namespace ShopManagement.Application
             if (_productCategoryRepository.Exists(x => x.Title == command.Title))
                 return operation.Failed("رکوردی با این نام از قبل وجود دارد");
             var slug = command.Slug.Slugify();
-            var fileName = _fileUploader.Upload(command.Picture, command.Slug);
+            var fileName = _fileUploader.Upload(command.Picture, slug);
+
             var productCategoy = new ProductCategory(command.Title, command.Description, fileName,
                 command.PictureAlt, command.PictureTitle, command.Keywords, command.MetaDescription, slug);
             _productCategoryRepository.Create(productCategoy);
