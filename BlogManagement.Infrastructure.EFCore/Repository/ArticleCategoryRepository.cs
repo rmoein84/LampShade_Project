@@ -19,12 +19,21 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
             _context = context;
         }
 
+        public List<ArticleCategoryViewModel> GetAll()
+        {
+            return _context.ArticleCategories.Select(x => new ArticleCategoryViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+            }).ToList();
+        }
+
         public EditArticleCategory GetDetails(long id)
         {
             return _context.ArticleCategories.Select(x => new EditArticleCategory
             {
                 Id = x.Id,
-                Title = x.Title,  
+                Title = x.Title,
                 ShowOrder = x.ShowOrder,
                 MetaDescription = x.MetaDescription,
                 PictureAlt = x.PictureAlt,
@@ -45,7 +54,7 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
 
         public List<ArticleCategoryViewModel> Search(ArticleCategorySearchModel searchModel)
         {
-            var query = _context.ArticleCategories.Select(x=>new ArticleCategoryViewModel
+            var query = _context.ArticleCategories.Select(x => new ArticleCategoryViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -56,9 +65,9 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
                 Picture = x.Picture,
             });
             if (!string.IsNullOrWhiteSpace(searchModel.Title))
-                query = query.Where(x=>x.Title ==  searchModel.Title);
+                query = query.Where(x => x.Title == searchModel.Title);
 
-            return query.OrderByDescending(x=>x.ShowOrder).ToList();
+            return query.OrderByDescending(x => x.ShowOrder).ToList();
         }
     }
 }

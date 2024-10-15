@@ -33,7 +33,7 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
                 PictureTitle = x.PictureTitle,
                 ShortDescription = x.ShortDescription,
                 Slug = x.Slug,
-                CateogryId = x.CategoryId,
+                CategoryId = x.CategoryId,
                 PublishDate = x.PublishDate.ToFarsi(),
                 CanonicalAddress = x.CanonicalAddress,
             })
@@ -63,8 +63,8 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
 
             if (!string.IsNullOrWhiteSpace(searchModel.Title))
                 query = query.Where(x => x.Title.Contains(searchModel.Title));
-            if (searchModel.CateogryId > 0)
-                query = query.Where(x => x.CategoryId == searchModel.CateogryId);
+            if (searchModel.CategoryId > 0)
+                query = query.Where(x => x.CategoryId == searchModel.CategoryId);
 
             return query.OrderByDescending(x => x.Id).ToList();
         }

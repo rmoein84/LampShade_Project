@@ -5,7 +5,6 @@ namespace BlogManagement.Application.Contract.Article
     public class ArticleSearchModel
     {
         public string Title { get; set; }
-        public long CateogryId { get; set; }
-        public List<ArticleCategoryViewModel> Categories { get; set; }
+        public long CategoryId { get; set; }
     }
 }
