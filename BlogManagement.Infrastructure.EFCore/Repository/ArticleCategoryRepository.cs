@@ -2,6 +2,7 @@
 using _0_Framework.Infrastructure;
 using BlogManagement.Application.Contract.ArticleCategory;
 using BlogManagement.Domain.ArticleCategoryAgg;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,14 +55,16 @@ namespace BlogManagement.Infrastructure.EFCore.Repository
 
         public List<ArticleCategoryViewModel> Search(ArticleCategorySearchModel searchModel)
         {
-            var query = _context.ArticleCategories.Select(x => new ArticleCategoryViewModel
+            var query = _context.ArticleCategories
+                .Include(x=>x.Articles)
+                .Select(x => new ArticleCategoryViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
                 Description = x.Description,
                 CreationDate = x.CreationDate.ToFarsi(),
                 ShowOrder = x.ShowOrder,
-                ArticlesCount = 0,
+                ArticlesCount = x.Articles.Count,
                 Picture = x.Picture,
             });
             if (!string.IsNullOrWhiteSpace(searchModel.Title))

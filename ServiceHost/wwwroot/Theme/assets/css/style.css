@@ -2673,15 +2673,14 @@ select {
 
 .single-slider-post__date-sticker {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     flex-direction: column;
-    width: 62px;
-    height: 70px;
+    padding: 5px;
     text-align: center;
     background: #fff;
     -webkit-box-orient: vertical;
@@ -2705,7 +2704,6 @@ select {
         .single-slider-post__date-sticker span.month {
             font-weight: 500;
             line-height: 12px;
-            margin-bottom: 10px;
             color: #929292;
         }
 

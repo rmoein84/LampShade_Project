@@ -26,7 +26,7 @@ namespace _01_LampShade.Query.Query
             _discountContext = discountContext;
         }
 
-        public List<ProductCategoryQueryModel> GetProductCategories()
+        public List<ProductCategoryQueryModel> GetAll()
         {
             return _context.ProductCategories
                 .AsNoTracking()
