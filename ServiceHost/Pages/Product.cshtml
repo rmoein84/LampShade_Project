@@ -1,7 +1,9 @@
 ﻿@page "{slug}"
 @model ServiceHost.Pages.ProductModel
 @{
-    ViewData["Title"] = "صفحه محصول";
+    ViewData["Title"] = Model.Product.Title;
+    ViewData["Keywords"] = Model.Product.Keywords;
+    ViewData["MetaDescription"] = Model.Product.MetaDescription;
 }
 <div class="breadcrumb-area section-space--half">
     <div class="container wide">
@@ -115,7 +117,7 @@
                                                 @Model.Product.Category
                                             </a>
                                         </p>
-                                        <h4 class="product-title">@Model.Product.Title</h4>
+                                        <h2 class="product-title">@Model.Product.Title</h2>
                                         <div class="product-rating">
                                             <span class="rating">
                                                 <i class="ion-android-star active"></i>
@@ -261,7 +263,7 @@
                                                                 <textarea name="Message"
                                                                           placeholder="نظر خود را بنویسید"></textarea>
                                                             </div>
-                                                            <input type="hidden" name="ProductId" value="@Model.Product.Id" />
+                                                            <input type="hidden" name="OwnerRecordId" value="@Model.Product.Id" />
                                                             <input type="hidden" name="ProductSlug" value="@Model.Product.Slug" />
                                                             <div class="col-12">
                                                                 <input value="ثبت نظر" type="submit">

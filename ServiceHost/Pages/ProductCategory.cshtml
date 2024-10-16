@@ -1,7 +1,9 @@
 ﻿@page "{slug}"
 @model ServiceHost.Pages.ProductCategoryModel
 @{
-    ViewData["Title"] = "گروه محصولات";
+    ViewData["Title"] = @Model.ProductCategory.Title;
+    ViewData["Keywords"] = Model.ProductCategory.Keywords;
+    ViewData["MetaDescription"] = Model.ProductCategory.MetaDescription;
 }
 <div class="breadcrumb-area section-space--half">
     <div class="container wide">
@@ -9,8 +11,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumb-wrapper breadcrumb-bg">
                     <div class="breadcrumb-content">
-                        <h2 class="breadcrumb-content__title">@Model.ProductCategory.Title</h2>
-                        <h5>@Model.ProductCategory.Description</h5>
+                        <h1 class="breadcrumb-content__title">@Model.ProductCategory.Title</h1>
+                        <h2>@Model.ProductCategory.Description</h2>
                         <ul class="breadcrumb-content__page-map">
                             <li><a asp-page="/Index">صفحه اصلی</a></li>
                             <li class="active">@Model.ProductCategory.Title</li>
@@ -95,11 +97,11 @@
                                                             </span>
                                                         </div>
 
-                                                        <h3 class="single-grid-product__title">
+                                                        <h2 class="single-grid-product__title">
                                                             <a asp-page="/Product" asp-route-slug="@product.Slug">
                                                                 @product.Title
                                                             </a>
-                                                        </h3>
+                                                        </h2>
                                                         <p class="single-grid-product__price">
                                                             @if (product.DiscountRate > 0)
                                                             {

@@ -1,6 +1,6 @@
 ﻿@page
-@using ShopManagement.Domain.CommentAgg
-@model ServiceHost.Areas.Administration.Pages.Shop.Comments.IndexModel
+@using CommentManagment.Domain.CommentAgg
+@model ServiceHost.Areas.Administration.Pages.Comments.IndexModel
 
 @{
     ViewData["title"] = "مدیریت نظرات";
@@ -52,7 +52,6 @@
                                     <th>نام</th>
                                     <th>ایمیل</th>
                                     <th>وضعیت</th>
-                                    <th>محصول</th>
                                     <th>تاریخ ایجاد</th>
                                     <th>عملیات</th>
                                 </tr>
@@ -78,7 +77,6 @@
                                                 <span class="text-danger">رد شده</span>
                                             }
                                         </td>
-                                        <td>@item.Product</td>
                                         <td>@item.CommentDate</td>
                                         <td>
                                             @if(item.Status != Statuses.Canceled)

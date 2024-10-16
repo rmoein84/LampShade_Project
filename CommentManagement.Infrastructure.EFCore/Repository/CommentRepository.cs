@@ -1,21 +1,16 @@
 ﻿using _0_Framework.Application;
 using _0_Framework.Infrastructure;
+using CommentManagement.Application.Contract.Comment;
+using CommentManagment.Domain.CommentAgg;
 using Microsoft.EntityFrameworkCore;
-using ShopManagement.Application.Contracts.Comment;
-using ShopManagement.Domain.CommentAgg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShopManagement.Infrastructere.EFCore.Repository
+namespace CommentManagement.Infrastructure.EFCore.Repository
 {
     public class CommentRepository : RepositoryBase<long, Comment>, ICommentRepository
     {
-        private readonly ShopContext _context;
+        private readonly CommentContext _context;
 
-        public CommentRepository(ShopContext context) : base(context)
+        public CommentRepository(CommentContext context) : base(context)
         {
             _context = context;
         }
@@ -23,15 +18,15 @@ namespace ShopManagement.Infrastructere.EFCore.Repository
         public List<CommentViewModel> Search(CommentSearchModel searchModel)
         {
             var query = _context.Comments
-                .Include(x => x.Product)
                 .Select(x => new CommentViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Email = x.Email,
+                    Website = x.Website,
+                    OwnerRecordId = x.OwnerRecordId,
+                    Type = x.Type,
                     Message = x.Message,
-                    ProductId = x.ProductId,
-                    Product = x.Product.Title,
                     CommentDate = x.CreationDate.ToFarsi(),
                     Status = x.Status,
                 });
@@ -40,7 +35,7 @@ namespace ShopManagement.Infrastructere.EFCore.Repository
             if (!string.IsNullOrWhiteSpace(searchModel.Email))
                 query = query.Where(x => x.Name.Contains(searchModel.Email));
 
-            return query.OrderByDescending(x=>x.Id).ToList();
+            return query.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

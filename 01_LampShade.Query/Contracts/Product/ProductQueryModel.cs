@@ -1,4 +1,6 @@
-﻿namespace _01_LampShade.Query.Contracts.Product
+﻿using _01_LampShade.Query.Contracts.Comment;
+
+namespace _01_LampShade.Query.Contracts.Product
 {
     public class ProductQueryModel
     {

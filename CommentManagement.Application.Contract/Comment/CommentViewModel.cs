@@ -1,4 +1,4 @@
-﻿namespace ShopManagement.Application.Contracts.Comment
+﻿namespace CommentManagement.Application.Contract.Comment
 {
     public class CommentViewModel
     {
@@ -6,9 +6,11 @@
         public string Name { get; set; }
         public string Email { get; set; }
         public string Message { get; set; }
-        public long ProductId { get; set; }
-        public string Product { get; set; }
+        public string Website { get; set; }
+        public long OwnerRecordId { get; set; }
+        public string OwnerName { get; set; }
         public string CommentDate { get; set; }
+        public int Type { get; set; }
         public int Status { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopManagement.Domain.CommentAgg
+namespace CommentManagment.Domain.CommentAgg
 {
     public static class Statuses
     {
