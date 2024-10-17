@@ -1,15 +1,14 @@
 ﻿@page
-@model Areas.Administration.Pages.Shop.Products.IndexModel
-
+@model Areas.Administration.Pages.Accounts.Role.IndexModel
 @{
-    ViewData["title"] = "مدیریت محصولات";
+    ViewData["title"] = "مدیریت نقش ها";
 }
 
 <div class="row">
     <div class="col-sm-12">
         <h4 class="page-title pull-right">@ViewData["title"]</h4>
         <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد محصول جدید</a>
+            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد نقش جدید</a>
         </p>
     </div>
 </div>
@@ -18,24 +17,13 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">جستجو در محصولات</h3>
+                <h3 class="panel-title">جستجو در نقش ها</h3>
             </div>
             <div class="panel-body">
                 <form class="form-inline" role="form" method="get">
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Title"></label>
-                        <input class="form-control" asp-for="SearchModel.Title" placeholder="نام محصول">
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Code"></label>
-                        <input class="form-control" asp-for="SearchModel.Code" placeholder="کد">
-                    </div>
-                    <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.CategoryId"></label>
-                        <select class="form-control" asp-for="SearchModel.CategoryId" asp-items="Model.ProductCategories">
-                            <option value="0">دسته بندی را انتخاب کنید</option>
-
-                        </select>
+                        <label class="sr-only" for="Name"></label>
+                        <input class="form-control" name="Name" placeholder="نام">
                     </div>
                     <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">جستجو</button>
                     <a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./Index">مشاهده همه</a>
@@ -49,7 +37,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">لیست محصولات</h3>
+                <h3 class="panel-title">لیست نقش ها</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -58,25 +46,17 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>عکس</th>
                                     <th>نام</th>
-                                    <th>کد</th>
-                                    <th>دسته بندی</th>
-                                    <th>تاریخ ایجاد</th>
+                                    <th>تاریخ ثبت نام</th>
                                     <th>عملیات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model.Products)
+                                @foreach (var item in Model.Roles)
                                 {
                                     <tr>
                                         <td>@item.Id</td>
-                                        <td>
-                                            <img src="~/uploadedFiles/@item.Picture" style="width: 70px; height: 70px" />
-                                        </td>
-                                        <td>@item.Title</td>
-                                        <td>@item.Code</td>
-                                        <td>@item.Category</td>
+                                        <td>@item.Name</td>
                                         <td>@item.CreationDate</td>
                                         <td>
                                             <a class="btn btn-warning btn-custom waves-effect waves-light m-b-5"

@@ -1,4 +1,6 @@
 ﻿@using _01_LampShade.Query
+@using _0_Framework.Application
+@inject IAuthHelper authHelper
 @model MenuModel
 <div class="header-area header-sticky">
     <div class="container">
@@ -23,7 +25,7 @@
                                 <li class="menu-item-has-children">
                                     <a href="">محصولات</a>
                                     <ul class="sub-menu">
-                                        @foreach(var productCategory in Model.ProductCategories)
+                                        @foreach (var productCategory in Model.ProductCategories)
                                         {
                                             <li>
                                                 <a asp-page="/ProductCategory" asp-route-slug="@productCategory.Slug">@productCategory.Title</a>
@@ -46,6 +48,18 @@
                                 <li>
                                     <a href="contact.html">تماس با ما</a>
                                 </li>
+                                @if (!authHelper.IsAuthenticated())
+                                {
+                                    <li>
+                                        <a asp-page="/Account">ورود / ثبت نام</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-page="/Account" asp-page-handler="Logout">خروج</a>
+                                    </li>
+                                }
                             </ul>
                         </nav>
                     </div>
