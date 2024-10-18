@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AccountManagement.Application.Contract.Account
 {
-    public class CreateAccount
+    public class RegisterAccount
     {
         [Required(ErrorMessage = ValidationMessages.IsRequire)]
         public string Fullname { get; set; }
@@ -20,8 +20,6 @@ namespace AccountManagement.Application.Contract.Account
         public string Password { get; set; }
         [Required(ErrorMessage = ValidationMessages.IsRequire)]
         public string Mobile { get; set; }
-
-        [Range(1, long.MaxValue, ErrorMessage = ValidationMessages.IsRequire)]
         public long RoleId { get; set; }
         public IFormFile ProfilePhoto { get; set; }
         public List<RoleViewModel> Roles { get; set; }

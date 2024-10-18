@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using _0_Framework.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -17,13 +18,23 @@ namespace _0_Framework.Application
             _contextAccessor = contextAccessor;
         }
 
+        public AuthViewModel CurrentAccountInfo()
+        {
+            var result = new AuthViewModel();
+            if (!IsAuthenticated())
+                return result;
+            var claims = _contextAccessor.HttpContext.User.Claims.ToList();
+            result.Id = long.Parse(claims.FirstOrDefault(x => x.Type == "AccountId").Value);
+            result.Username = claims.FirstOrDefault(x => x.Type == "Username").Value;
+            result.Fullname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            result.RoleId = long.Parse(claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value);
+            result.Role = claims.FirstOrDefault(x => x.Type == "Role").Value;
+            return result;
+        }
+
         public bool IsAuthenticated()
         {
-            var claims = _contextAccessor.HttpContext.User.Claims.ToList();
-            //if (claims.Count > 0)
-            //    return true;
-            //return false;
-            return claims.Count > 0;
+            return  _contextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
 
         public void Signin(AuthViewModel account)
@@ -33,6 +44,7 @@ namespace _0_Framework.Application
                 new Claim("AccountId", account.Id.ToString()),
                 new Claim(ClaimTypes.Name, account.Fullname),
                 new Claim(ClaimTypes.Role, account.RoleId.ToString()),
+                new Claim("Role", account.Role),
                 new Claim("Username", account.Username)
             };
 
@@ -40,7 +52,9 @@ namespace _0_Framework.Application
 
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1),
+                // To Keep Cookie In Browser
+                IsPersistent = true
             };
 
             _contextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,

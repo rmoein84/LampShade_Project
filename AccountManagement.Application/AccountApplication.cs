@@ -32,7 +32,7 @@ namespace AccountManagement.Application
             return operation.Succedded();
         }
 
-        public OperationResult Create(CreateAccount command)
+        public OperationResult Register(RegisterAccount command)
         {
             var operation = new OperationResult();
             if (_accountRepository.Exists(x => x.Username == command.Username || x.Mobile == command.Mobile))
@@ -77,9 +77,10 @@ namespace AccountManagement.Application
             if (account == null)
                 return operation.Failed(ApplicationMessages.UserNotFound);
             (bool verified, bool needsUpgrade) result = _passwordHasher.Check(account.Password, command.Password);
-            if(!result.verified)
+            if (!result.verified)
                 return operation.Failed(ApplicationMessages.WrongUserPass);
-            var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Fullname, account.Username);
+            var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Role.Name, account.Fullname, account.Username);
+
             _authHelper.Signin(authViewModel);
             return operation.Succedded();
         }
