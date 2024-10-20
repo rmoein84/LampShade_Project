@@ -6,6 +6,7 @@ using CommentManagment.Domain.CommentAgg;
 using DiscountManagement.Infrastructure.EFCore;
 using InventoryManagement.Infrasturcture.EFCore;
 using Microsoft.EntityFrameworkCore;
+using ShopManagement.Application.Contracts.Order;
 using ShopManagement.Domain.ProductAgg;
 using ShopManagement.Domain.ProductPictureAgg;
 using ShopManagement.Infrastructere.EFCore;
@@ -107,6 +108,7 @@ namespace _01_LampShade.Query.Query
             if (inventory != null)
             {
                 item.Price = inventory.UnitPrice.ToMoney();
+                item.DoublePrice = inventory.UnitPrice;
                 item.IsInStock = inventory.InStock;
                 if (discount != null)
                 {
@@ -182,6 +184,17 @@ InventoryContext inventoryContext, DiscountContext discountContext)
                 result.Add(item);
             }
             return result;
+        }
+
+        public List<CartItem> CheckInventoryStatus(List<CartItem> cartItems)
+        {
+            var inventory = _inventoryContext.Inventory.ToList();
+            foreach (var item in cartItems)
+            {
+                if (inventory.Any(x => x.ProductId == item.Id && x.CalculateCurrentCount() >= item.Count))
+                    item.IsInStock = true;
+            }
+            return cartItems;
         }
     }
 }

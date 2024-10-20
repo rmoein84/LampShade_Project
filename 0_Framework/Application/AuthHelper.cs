@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using _0_Framework.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace _0_Framework.Application
 {
@@ -32,22 +34,48 @@ namespace _0_Framework.Application
             return result;
         }
 
+        public List<int> GetPermissions()
+        {
+            if (!IsAuthenticated())
+                return new List<int>();
+            var permissions = _contextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(x => x.Type == "Permissions").Value;
+            return JsonConvert.DeserializeObject<List<int>>(permissions);
+        }
+
         public bool IsAuthenticated()
         {
             return  _contextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
 
+        public void SetPermissions(List<int> permissions)
+        {
+            var castedPermissions = JsonConvert.SerializeObject(permissions);
+            var accountCalims = _contextAccessor.HttpContext.User.Claims.ToList();
+            var claim = accountCalims
+                .FirstOrDefault(x => x.Type == "Permissions");
+            accountCalims.Remove(claim);
+            accountCalims.Add(new Claim("Permissions", castedPermissions));
+            SetClaims(accountCalims);
+        }
+
         public void Signin(AuthViewModel account)
         {
+            var permissions = JsonConvert.SerializeObject(account.Permissions);
             var claims = new List<Claim>
             {
                 new Claim("AccountId", account.Id.ToString()),
                 new Claim(ClaimTypes.Name, account.Fullname),
                 new Claim(ClaimTypes.Role, account.RoleId.ToString()),
                 new Claim("Role", account.Role),
-                new Claim("Username", account.Username)
+                new Claim("Username", account.Username),
+                new Claim("Permissions", permissions)
             };
+            SetClaims(claims);
 
+        }
+        private void SetClaims(List<Claim> claims)
+        {
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
@@ -61,10 +89,17 @@ namespace _0_Framework.Application
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
         }
-
         public void SignOut()
         {
             _contextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public string CurrentAccountRoleId()
+        {
+            if (IsAuthenticated())
+                return _contextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
+            return null;
         }
     }
 }

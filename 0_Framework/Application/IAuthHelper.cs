@@ -6,6 +6,10 @@
         void SignOut();
         void Signin(AuthViewModel account);
         AuthViewModel CurrentAccountInfo();
+        string CurrentAccountRoleId();
+        List<int> GetPermissions();
+        void SetPermissions(List<int> permissions);
+
 
     }
 }

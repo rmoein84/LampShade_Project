@@ -12,10 +12,11 @@ namespace AccountManagement.Application
     public class RoleApplication : IRoleApplication
     {
         private readonly IRoleRepository _roleRepository;
-
-        public RoleApplication(IRoleRepository roleRepository)
+        private readonly IAuthHelper _authHelper;
+        public RoleApplication(IRoleRepository roleRepository, IAuthHelper authHelper)
         {
             _roleRepository = roleRepository;
+            _authHelper = authHelper;
         }
 
         public OperationResult Create(CreateRole command)
@@ -23,7 +24,7 @@ namespace AccountManagement.Application
             var operation = new OperationResult();
             if (_roleRepository.Exists(x=>x.Name == command.Name))
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
-            var role = new Role(command.Name);
+            var role = new Role(command.Name, new List<Permission>());
             _roleRepository.Create(role);
             _roleRepository.SaveChanges();
             return operation.Succedded();
@@ -37,7 +38,12 @@ namespace AccountManagement.Application
             var role = _roleRepository.Get(command.Id);
             if (role == null)
                 return operation.Failed(ApplicationMessages.RecordNotFound);
-            role.Edit(command.Name);
+            var permissions = new List<Permission>();
+            command.Permissions.ForEach(code => permissions.Add(new Permission(code)));
+            var accountRole = _authHelper.CurrentAccountInfo().Role;
+            if (command.Name == accountRole)
+                _authHelper.SetPermissions(permissions.Select(x => x.Code).ToList());
+            role.Edit(command.Name, permissions);
             _roleRepository.SaveChanges();
             return operation.Succedded();
         }

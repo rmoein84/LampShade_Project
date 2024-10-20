@@ -797,7 +797,7 @@ select {
     .mini-cart .cart-items-wrapper {
         position: relative;
         overflow: hidden;
-        max-height: 280px;
+        max-height: 440px;
         margin: 0 -30px;
         padding: 0 30px;
     }
@@ -4615,7 +4615,7 @@ select {
     }
 
         .cart-table td.pro-remove a i {
-            font-size: 15px;
+            font-size: 22px;
         }
 
         .cart-table td.pro-remove a:hover {

@@ -7,16 +7,18 @@
         public string Role { get; set; }
         public string Fullname { get; set; }
         public string Username { get; set; }
+        public List<int> Permissions { get; set; }
         public AuthViewModel()
         {
         }
-        public AuthViewModel(long id, long roleId, string role, string fullname, string username)
+        public AuthViewModel(long id, long roleId, string role, string fullname, string username, List<int> permissions)
         {
             Id = id;
             RoleId = roleId;
             Role = role;
             Fullname = fullname;
             Username = username;
+            Permissions = permissions;
         }
     }
 }

@@ -1,5 +1,7 @@
 using _0_Framework.Application;
 using _0_Framework.Infrastructure;
+using _01_LampShade.Query.Contracts;
+using _01_LampShade.Query.Query;
 using AccountManagement.Infastructure.Configuration;
 using BlogManagement.Infrastructure.Configure;
 using CommentManagement.Infrastructure.Configuration;
@@ -50,6 +52,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddRazorPages()
+    .AddMvcOptions(options => options.Filters.Add<SecurityPageFilter>())
     .AddRazorPagesOptions(options =>
     {
         options.Conventions.AuthorizeAreaFolder("Administration", "/", "AdminArea");
