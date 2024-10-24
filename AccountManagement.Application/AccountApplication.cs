@@ -83,7 +83,7 @@ namespace AccountManagement.Application
                 return operation.Failed(ApplicationMessages.WrongUserPass);
             var permission = _roleRepository.Get(account.RoleId).Permissions.Select(x=> x.Code).ToList();
             var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Role.Name,
-                account.Fullname, account.Username, permission);
+                account.Fullname, account.Username, permission, account.Mobile);
 
             _authHelper.Signin(authViewModel);
             return operation.Succedded();
@@ -102,6 +102,16 @@ namespace AccountManagement.Application
         public List<AccountViewModel> GetAccounts()
         {
             return _accountRepository.GetAccounts();
+        }
+
+        public AccountViewModel GetAccountBy(long id)
+        {
+            var account = _accountRepository.Get(id);
+            return new AccountViewModel
+            {
+                Fullname = account.Fullname,
+                Mobile = account.Mobile,
+            };
         }
     }
 }

@@ -31,6 +31,8 @@ namespace _0_Framework.Application
             result.Fullname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
             result.RoleId = long.Parse(claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value);
             result.Role = claims.FirstOrDefault(x => x.Type == "Role").Value;
+            
+            result.Mobile = claims.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone).Value;
             return result;
         }
 
@@ -69,7 +71,8 @@ namespace _0_Framework.Application
                 new Claim(ClaimTypes.Role, account.RoleId.ToString()),
                 new Claim("Role", account.Role),
                 new Claim("Username", account.Username),
-                new Claim("Permissions", permissions)
+                new Claim(ClaimTypes.MobilePhone, account.Mobile),
+                new Claim("Permissions", permissions),
             };
             SetClaims(claims);
 
@@ -108,6 +111,14 @@ namespace _0_Framework.Application
                 return long.Parse(_contextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(x => x.Type == "AccountId").Value);
             return 0;
+        }
+
+        public string CurrentAccountMobile()
+        {
+            if (IsAuthenticated())
+                return _contextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone).Value;
+            return null;
         }
     }
 }

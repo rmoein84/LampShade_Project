@@ -131,6 +131,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BM.Presentation", "BM.Prese
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogManagement.Presentation.Api", "BlogManagement.Presentation.Api\BlogManagement.Presentation.Api.csproj", "{436A50B7-069B-4939-81DB-BBE32C450A6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopManagement.Infrastructure.AccountAcl", "ShopManagement.Infrastructure.AccountAcl\ShopManagement.Infrastructure.AccountAcl.csproj", "{62DAA50C-1900-476B-B2BE-C1F94EC7309C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -285,6 +287,10 @@ Global
 		{436A50B7-069B-4939-81DB-BBE32C450A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{436A50B7-069B-4939-81DB-BBE32C450A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{436A50B7-069B-4939-81DB-BBE32C450A6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62DAA50C-1900-476B-B2BE-C1F94EC7309C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62DAA50C-1900-476B-B2BE-C1F94EC7309C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62DAA50C-1900-476B-B2BE-C1F94EC7309C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62DAA50C-1900-476B-B2BE-C1F94EC7309C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -345,6 +351,7 @@ Global
 		{9B3DF593-33E6-43B1-A3ED-B10B6E0CDE2C} = {18EF26AE-18B5-4442-A29A-87C8173BFD61}
 		{EDCA3AEB-48BB-4344-95DE-ADB12F57ACCA} = {9631E21D-D75D-46DF-AF1D-E9243E74BBFA}
 		{436A50B7-069B-4939-81DB-BBE32C450A6D} = {EDCA3AEB-48BB-4344-95DE-ADB12F57ACCA}
+		{62DAA50C-1900-476B-B2BE-C1F94EC7309C} = {0FDC1DD7-C1F2-40D9-8A60-DEC4EDDBA235}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F95E87B7-A873-4E8B-9F86-01CEC4384B1D}

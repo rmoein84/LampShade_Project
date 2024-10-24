@@ -1,4 +1,5 @@
 ﻿using _0_Framework.Application;
+using _0_Framework.Application.Sms;
 using Microsoft.Extensions.Configuration;
 using ShopManagement.Application.Contracts.Order;
 using ShopManagement.Domain.OrderAgg;
@@ -10,16 +11,17 @@ namespace ShopManagement.Application
     {
         private readonly IAuthHelper _authHelper;
         private readonly IShopInventoryAcl _shopInventoryAcl;
-        //private readonly IConfiguration _configuration;
-
-
+        private readonly IShopAccountAcl _shopAccountAcl;
+        private readonly ISmsService _smsService;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderApplication(IOrderRepository orderRepository, IAuthHelper authHelper, IShopInventoryAcl shopInventoryAcl)
+        public OrderApplication(IOrderRepository orderRepository, IAuthHelper authHelper, IShopInventoryAcl shopInventoryAcl, ISmsService smsService, IShopAccountAcl shopAccountAcl)
         {
             _orderRepository = orderRepository;
             _authHelper = authHelper;
             _shopInventoryAcl = shopInventoryAcl;
+            _smsService = smsService;
+            _shopAccountAcl = shopAccountAcl;
         }
 
         public void Cancel(long id)
@@ -52,6 +54,8 @@ namespace ShopManagement.Application
             if (_shopInventoryAcl.DecreaseFromInventory(order.Items))
             {
                 _orderRepository.SaveChanges();
+                var account = _shopAccountAcl.GetAccountBy(order.AccountId);
+                //_smsService.Send(account.mobile, "سفارش شما با موفقیت ثبت شد");
                 return issueTrackingNo;
             }
             return null;

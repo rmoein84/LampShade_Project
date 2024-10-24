@@ -1,4 +1,6 @@
 using _0_Framework.Application;
+using _0_Framework.Application.Email;
+using _0_Framework.Application.Sms;
 using _0_Framework.Application.ZarinPal;
 using _0_Framework.Infrastructure;
 using _01_LampShade.Query.Contracts;
@@ -10,6 +12,7 @@ using DiscountManagement.Configuration;
 using InventoryManagement.Configuration;
 using InventoryManagement.Presentation.Api;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using ServiceHost;
 using ShopManagement.Configuration;
 using ShopManagement.Domain.Services;
@@ -34,6 +37,8 @@ builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddTransient<IFileUploader, FileUploader>();
 builder.Services.AddTransient<IAuthHelper, AuthHelper>();
 builder.Services.AddTransient<IZarinPalFactory, ZarinPalFactory>();
+builder.Services.AddTransient<ISmsService, SmsService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
@@ -41,6 +46,8 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.Lax;
 });
+builder.Services.AddCors(options => options.AddPolicy("Cors", builder =>
+    builder.WithOrigins("https://localhost:7128")));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
@@ -89,6 +96,8 @@ app.UseCookiePolicy();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseCors("Cors");
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();

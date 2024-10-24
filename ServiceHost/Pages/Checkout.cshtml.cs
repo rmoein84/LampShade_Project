@@ -76,6 +76,7 @@ namespace ServiceHost.Pages
             {
                 var issueTrackingNo = _orderApplication.PaymentSucceeded(oId, verificationResponse.Ref_id);
                 Response.Cookies.Delete("cart-items");
+
                 result = result.Succeeded("پرداخت موفقیت آمیز بود", issueTrackingNo);
                 return RedirectToPage("/PaymentResult", result);
             }

@@ -10,5 +10,6 @@
         List<int> GetPermissions();
         void SetPermissions(List<int> permissions);
         long CurrentAccountId();
+        string CurrentAccountMobile();
     }
 }
