@@ -35,7 +35,7 @@ namespace CommentManagement.Infrastructure.EFCore.Migrations
                         column: x => x.ParentId,
                         principalTable: "Comments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

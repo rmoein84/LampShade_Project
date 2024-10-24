@@ -20,9 +20,18 @@ namespace AccountManagement.Infrastructure.EFCore.Repository
             _context = context;
         }
 
+        public List<AccountViewModel> GetAccounts()
+        {
+            return _context.Accounts.Select(x => new AccountViewModel
+            {
+                Id = x.Id,
+                Fullname = x.Fullname,
+            }).ToList();
+        }
+
         public Account GetBy(string username)
         {
-            return _context.Accounts.Include(x=>x.Role).FirstOrDefault(x => x.Username == username);
+            return _context.Accounts.Include(x => x.Role).FirstOrDefault(x => x.Username == username);
         }
 
         public EditAccount GetDetails(long id)
@@ -41,20 +50,20 @@ namespace AccountManagement.Infrastructure.EFCore.Repository
         public List<AccountViewModel> Search(AccountSearchModel searchModel)
         {
             var query = _context.Accounts
-                .Include(x=>x.Role)
+                .Include(x => x.Role)
                 .Select(x => new AccountViewModel
-            {
-                Id= x.Id,
-                Fullname = x.Fullname,
-                Mobile = x.Mobile,
-                ProfilePhoto = x.ProfilePhoto,
-                Username = x.Username,
-                Role = x.Role.Name,
-                RoleId = x.RoleId,
-                CreationDate = x.CreationDate.ToFarsi()
-            });
-            if(!string.IsNullOrWhiteSpace(searchModel.Username))
-                query = query.Where(x=>x.Username.Contains(searchModel.Username));
+                {
+                    Id = x.Id,
+                    Fullname = x.Fullname,
+                    Mobile = x.Mobile,
+                    ProfilePhoto = x.ProfilePhoto,
+                    Username = x.Username,
+                    Role = x.Role.Name,
+                    RoleId = x.RoleId,
+                    CreationDate = x.CreationDate.ToFarsi()
+                });
+            if (!string.IsNullOrWhiteSpace(searchModel.Username))
+                query = query.Where(x => x.Username.Contains(searchModel.Username));
             if (!string.IsNullOrWhiteSpace(searchModel.Fullname))
                 query = query.Where(x => x.Fullname.Contains(searchModel.Fullname));
             if (!string.IsNullOrWhiteSpace(searchModel.Mobile))
@@ -62,7 +71,7 @@ namespace AccountManagement.Infrastructure.EFCore.Repository
             if (searchModel.RoleId > 0)
                 query = query.Where(x => x.RoleId == searchModel.RoleId);
 
-            return query.OrderByDescending(x=> x.Id).ToList();
+            return query.OrderByDescending(x => x.Id).ToList();
 
         }
     }

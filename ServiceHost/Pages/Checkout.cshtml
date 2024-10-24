@@ -1,4 +1,5 @@
 ﻿@page
+@using ShopManagement.Application.Contracts
 @using _0_Framework.Application
 @model ServiceHost.Pages.CheckoutModel
 @{
@@ -32,75 +33,88 @@
                 <!--=======  page wrapper  =======-->
                 <div class="page-wrapper">
                     <div class="page-content-wrapper">
-                        <form action="#">
-                            <div class="cart-table table-responsive">
-                                <table class="table">
-                                    <thead>
+                        <div class="cart-table table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="pro-thumbnail">عکس</th>
+                                        <th class="pro-thumbnail">محصول</th>
+                                        <th class="pro-title">قیمت واحد</th>
+                                        <th class="pro-price">تعداد</th>
+                                        <th class="pro-quantity">مبلغ کل</th>
+                                        <th class="pro-quantity">درصد تخفیف</th>
+                                        <th class="pro-subtotal">مبلغ کل تخفیف</th>
+                                        <th class="pro-remove">مبلغ با احتساب تخفیف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cartItem in Model.Cart.Items)
+                                    {
                                         <tr>
-                                            <th class="pro-thumbnail">عکس</th>
-                                            <th class="pro-thumbnail">محصول</th>
-                                            <th class="pro-title">قیمت واحد</th>
-                                            <th class="pro-price">تعداد</th>
-                                            <th class="pro-quantity">مبلغ کل</th>
-                                            <th class="pro-quantity">درصد تخفیف</th>
-                                            <th class="pro-subtotal">مبلغ کل تخفیف</th>
-                                            <th class="pro-remove">مبلغ با احتساب تخفیف</th>
+                                            <td class="pro-thumbnail">
+                                                <a href="single-product.html">
+                                                    <img src="/uploadedFiles/@cartItem.Picture" class="img-fluid">
+                                                </a>
+                                            </td>
+                                            <td class="pro-title">
+                                                <a href="single-product.html">
+                                                    @cartItem.Title
+                                                </a>
+                                            </td>
+                                            <td class="pro-price">
+                                                <span>@cartItem.UnitPrice.ToMoney()</span>
+                                            </td>
+                                            <td class="pro-price">
+                                                <span>@cartItem.Count</span>
+                                            </td>
+                                            <td class="pro-subtotal">
+                                                <span>@cartItem.TotalItemPrice.ToMoney()</span>
+                                            </td>
+                                            <td class="pro-subtotal">
+                                                <span>@cartItem.DiscountRate%</span>
+                                            </td>
+                                            <td class="pro-subtotal">
+                                                <span>@cartItem.DiscountAmount.ToMoney()</span>
+                                            </td>
+                                            <td class="pro-subtotal">
+                                                <span>@cartItem.ItemPayAmount.ToMoney()</span>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach(var cartItem in Model.Cart.Items)
-                                        {
-                                            <tr>
-                                                <td class="pro-thumbnail">
-                                                    <a href="single-product.html">
-                                                        <img src="/uploadedFiles/@cartItem.Picture" class="img-fluid">
-                                                    </a>
-                                                </td>
-                                                <td class="pro-title">
-                                                    <a href="single-product.html">
-                                                        @cartItem.Title
-                                                    </a>
-                                                </td>
-                                                <td class="pro-price">
-                                                    <span>@cartItem.UnitPrice.ToMoney()</span>
-                                                </td>
-                                                <td class="pro-price">
-                                                    <span>@cartItem.Count</span>
-                                                </td>
-                                                <td class="pro-subtotal">
-                                                    <span>@cartItem.TotalItemPrice.ToMoney()</span>
-                                                </td>
-                                                <td class="pro-subtotal">
-                                                    <span>@cartItem.DiscountRate%</span>
-                                                </td>
-                                                <td class="pro-subtotal">
-                                                    <span>@cartItem.DiscountAmount.ToMoney()</span>
-                                                </td>
-                                                <td class="pro-subtotal">
-                                                    <span>@cartItem.ItemPayAmount.ToMoney()</span>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </form>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-6 col-12 d-flex">
-                                <div class="cart-summary">
-                                    <div class="cart-summary-wrap">
-                                        <h4>خلاصه وضعیت فاکتور</h4>
-                                        <p>مبلغ نهایی <span>@Model.Cart.TotalAmount.ToMoney() تومان</span></p>
-                                        <p>مبلغ تخفیف <span>@Model.Cart.DiscountAmount.ToMoney() تومان</span></p>
-                                        <h2>مبلغ قابل پرداخت <span>@Model.Cart.PayAmount.ToMoney() تومان</span></h2>
+                        <form method="post" asp-page-handler="Pay">
+                            <div class="row">
+                                <div class="col-lg-6 col-12 d-flex">
+                                    <div class="checkout-payment-method">
+                                        <h4>نحوه پرداخت</h4>
+                                        @foreach (var item in PaymentMethod.GetList())
+                                        {
+                                            <div class="single-method">
+                                                <input type="radio" id="payment_@item.Id" name="paymentMethod" value="@item.Id" @(PaymentMethod.GetList().First().Id == item.Id ? "checked" : "") />
+                                                <label for="payment_@item.Id">@item.Name</label>
+                                                <p data-method="@item.Id" style="display:@(PaymentMethod.GetList().First().Id == item.Id ? "block" : "none")">@item.Description</p>
+                                            </div>
+                                        }
                                     </div>
-                                    <div class="cart-summary-button">
-                                        <button class="checkout-btn">پرداخت</button>
+                                </div>
+                                <div class="col-lg-6 col-12 d-flex">
+                                    <div class="cart-summary">
+                                        <div class="cart-summary-wrap">
+                                            <h4>خلاصه وضعیت فاکتور</h4>
+                                            <p>مبلغ نهایی <span>@Model.Cart.TotalAmount.ToMoney() تومان</span></p>
+                                            <p>مبلغ تخفیف <span>@Model.Cart.DiscountAmount.ToMoney() تومان</span></p>
+                                            <h2>مبلغ قابل پرداخت <span>@Model.Cart.PayAmount.ToMoney() تومان</span></h2>
+                                        </div>
+                                        <div class="cart-summary-button">
+                                            <button type="submit" asp-page-handler="Pay">پرداخت</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

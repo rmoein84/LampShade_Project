@@ -45,7 +45,7 @@ namespace _0_Framework.Application
 
         public bool IsAuthenticated()
         {
-            return  _contextAccessor.HttpContext.User.Identity.IsAuthenticated;
+            return _contextAccessor.HttpContext.User.Identity.IsAuthenticated;
         }
 
         public void SetPermissions(List<int> permissions)
@@ -100,6 +100,14 @@ namespace _0_Framework.Application
                 return _contextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
             return null;
+        }
+
+        public long CurrentAccountId()
+        {
+            if (IsAuthenticated())
+                return long.Parse(_contextAccessor.HttpContext.User.Claims
+                .FirstOrDefault(x => x.Type == "AccountId").Value);
+            return 0;
         }
     }
 }

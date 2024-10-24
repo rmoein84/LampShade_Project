@@ -1,4 +1,5 @@
 using _0_Framework.Application;
+using _0_Framework.Application.ZarinPal;
 using _0_Framework.Infrastructure;
 using _01_LampShade.Query.Contracts;
 using _01_LampShade.Query.Query;
@@ -7,9 +8,12 @@ using BlogManagement.Infrastructure.Configure;
 using CommentManagement.Infrastructure.Configuration;
 using DiscountManagement.Configuration;
 using InventoryManagement.Configuration;
+using InventoryManagement.Presentation.Api;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ServiceHost;
 using ShopManagement.Configuration;
+using ShopManagement.Domain.Services;
+using ShopManagement.Presentation.Api;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -29,11 +33,13 @@ builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, Unico
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddTransient<IFileUploader, FileUploader>();
 builder.Services.AddTransient<IAuthHelper, AuthHelper>();
+builder.Services.AddTransient<IZarinPalFactory, ZarinPalFactory>();
+
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+    options.MinimumSameSitePolicy = SameSiteMode.Lax;
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -59,7 +65,9 @@ builder.Services.AddRazorPages()
         options.Conventions.AuthorizeAreaFolder("Administration", "/Shop", "Shop");
         options.Conventions.AuthorizeAreaFolder("Administration", "/Discounts", "Discount");
         options.Conventions.AuthorizeAreaFolder("Administration", "/Accounts", "Account");
-    });
+    })
+    .AddApplicationPart(typeof(ProductController).Assembly)
+    .AddApplicationPart(typeof(InventoryController).Assembly);
 
 var app = builder.Build();
 

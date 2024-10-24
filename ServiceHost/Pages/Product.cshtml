@@ -166,17 +166,27 @@
                                         }
 
                                         <div class="product-actions" dir="rtl">
+                                            @if (@Model.Product.IsInStock)
+                                            {
 
-                                            <div class="product-buttons">
-                                                <a class="cart-btn" onclick="addToCart('@Model.Product.Id', '@Model.Product.Title','@Model.Product.DoublePrice','@Model.Product.Picture')">
-                                                    <i class="ion-bag"></i> افزودن به سبد خرید
-                                                </a>
-                                            </div>
-                                            <div class="quantity-selection">
-                                                <input type="number" id="productCount" value="1" min="1">
-                                                <label>تعداد</label>
-                                            </div>
-
+                                                <div class="product-buttons">
+                                                    <a class="cart-btn" onclick="addToCart('@Model.Product.Id', '@Model.Product.Title','@Model.Product.DoublePrice','@Model.Product.Picture')">
+                                                        <i class="ion-bag"></i> افزودن به سبد خرید
+                                                    </a>
+                                                </div>
+                                                <div class="quantity-selection">
+                                                    <input type="number" id="productCount" value="1" min="1">
+                                                    <label>تعداد</label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="product-buttons">
+                                                    <a class="cart-btn">
+                                                       موجود شد اطلاع دهید
+                                                    </a>
+                                                </div>
+                                            }
                                         </div>
 
                                         <div class="social-share-buttons mt-20">

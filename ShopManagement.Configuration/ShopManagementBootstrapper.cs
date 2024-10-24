@@ -7,17 +7,21 @@ using _01_LampShade.Query.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ShopManagement.Application;
+using ShopManagement.Application.Contracts.Order;
 using ShopManagement.Application.Contracts.Product;
 using ShopManagement.Application.Contracts.ProductCategory;
 using ShopManagement.Application.Contracts.ProductPicture;
 using ShopManagement.Application.Contracts.Slide;
 using ShopManagement.Configuration.Permissions;
+using ShopManagement.Domain.OrderAgg;
 using ShopManagement.Domain.ProductAgg;
 using ShopManagement.Domain.ProductCategoryAgg;
 using ShopManagement.Domain.ProductPictureAgg;
+using ShopManagement.Domain.Services;
 using ShopManagement.Domain.SlideAgg;
 using ShopManagement.Infrastructere.EFCore;
 using ShopManagement.Infrastructere.EFCore.Repository;
+using ShopManagement.Infrastructure.InventoryAcl;
 
 namespace ShopManagement.Configuration
 {
@@ -40,8 +44,16 @@ namespace ShopManagement.Configuration
             /* Slide Configuration */
             services.AddTransient<ISlideApplication, SlideApplication>();
             services.AddTransient<ISlideRepository, SlideRepository>();
+
+            /* Order Configuration */
+            services.AddTransient<IOrderApplication, OrderApplication>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+
             /* CartCalculator Configuration */
             services.AddTransient<ICartCalculatorService, CartCalculatorService>();
+
+            services.AddSingleton<ICartService, CartService>();
+            services.AddTransient<IShopInventoryAcl, ShopInvenoryAcl>();
 
             /* Queries Configuration */
             services.AddTransient<ISlideQuery, SlideQuery>();
@@ -49,6 +61,7 @@ namespace ShopManagement.Configuration
             services.AddTransient<IProductQuery, ProductQuery>();
 
             services.AddTransient<IPermissionExposer, ShopPermissionExposer>();
+
 
             /* DBContext Configuration */
             services.AddDbContext<ShopContext>(x => x.UseSqlServer(connectionString));

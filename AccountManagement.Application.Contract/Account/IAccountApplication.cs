@@ -4,6 +4,7 @@ namespace AccountManagement.Application.Contract.Account
 {
     public interface IAccountApplication
     {
+        List<AccountViewModel> GetAccounts();
         OperationResult Register(RegisterAccount command);
         OperationResult Edit(EditAccount command);
         OperationResult ChangePassword(ChangePassword command);

@@ -9,7 +9,6 @@
         string CurrentAccountRoleId();
         List<int> GetPermissions();
         void SetPermissions(List<int> permissions);
-
-
+        long CurrentAccountId();
     }
 }
