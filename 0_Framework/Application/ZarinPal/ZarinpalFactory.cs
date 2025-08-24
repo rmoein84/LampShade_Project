@@ -8,6 +8,7 @@ namespace _0_Framework.Application.ZarinPal
 {
     public class ZarinPalFactory : IZarinPalFactory
     {
+        private string _baseUrl;
         private readonly IConfiguration _configuration;
 
         public string Prefix { get; set; }
@@ -18,6 +19,7 @@ namespace _0_Framework.Application.ZarinPal
             _configuration = configuration;
             Prefix = _configuration.GetSection("payment")["method"];
             MerchantId = _configuration.GetSection("payment")["merchant"];
+            _baseUrl = $"https://{Prefix}.zarinpal.com/pg/v4/payment/";
         }
 
         public PaymentResponse CreatePaymentRequest(string amount, string mobile, string email, string description,
@@ -26,67 +28,46 @@ namespace _0_Framework.Application.ZarinPal
             amount = amount.Replace(",", "");
             var finalAmount = int.Parse(amount);
             var siteUrl = _configuration.GetSection("payment")["siteUrl"];
-
-            //var client = new RestClient($"https://{Prefix}.zarinpal.com/pg/v4/payment/request.json");
-            var client = new RestClient($"https://sandbox.zarinpal.com/pg/v4/payment/request.json");
-            var request = new RestRequest();
-            request.Method = Method.Post;
+            var client = new RestClient(_baseUrl);
+            var request = new RestRequest("request.json", Method.Post);
             request.AddHeader("Content-Type", "application/json");
-            //var body = new PaymentRequest
-            //{
-            //    Mobile = mobile,
-            //    CallbackURL = $"{siteUrl}/Checkout?handler=CallBack&oId={orderId}",
-            //    Description = description,
-            //    Email = email,
-            //    Amount = finalAmount,
-            //    MerchantID = MerchantId
-            //};
-            var body = new
+            var body = new PaymentRequest
             {
-                callback_url = $"{siteUrl}/Checkout?handler=CallBack&oId={orderId}",
-                description = "توضیحات",
-                amount = finalAmount,
-                merchant_id = MerchantId,
-                currency = "IRT"
+                Mobile = mobile,
+                CallbackURL = $"{siteUrl}/Checkout?handler=CallBack&oId={orderId}",
+                Description = description,
+                Email = email,
+                Amount = finalAmount,
+                MerchantID = MerchantId,
+                Currency = "IRT"
             };
             request.AddJsonBody(body);
             var response = client.Execute(request);
-            var result = JsonConvert.DeserializeObject<DataResponse>(response.Content);
-            
+            var result = JsonConvert.DeserializeObject<PaymentDataResponse>(response.Content);
+
             return result.Data;
-            //return jsonSerializer.Deserialize<PaymentResponse>(response);
         }
 
-        public VerificationResponse CreateVerificationRequest(string authorityId, string amount)
+        public VerificationResponse CreateVerificationRequest(string authority, string amount)
         {
-            var client = new RestClient($"https://{Prefix}.zarinpal.com/pg/v4/payment/verify.json");
+            var client = new RestClient(_baseUrl);
 
-            var request = new RestRequest();
-            request.Method = Method.Post;
+            var request = new RestRequest("verify.json", Method.Post);
             request.AddHeader("Content-Type", "application/json");
 
             amount = amount.Replace(",", "");
             var finalAmount = int.Parse(amount);
 
-            //request.AddJsonBody(new VerificationRequest
-            //{
-            //    Amount = finalAmount,
-            //    MerchantID = MerchantId,
-            //    Authority = authority
-            //});
-            request.AddJsonBody(new
+            request.AddJsonBody(new VerificationRequest
             {
-                amount = finalAmount,
-                merchant_id = MerchantId,
-                authority = authorityId
+                Amount = finalAmount,
+                MerchantID = MerchantId,
+                Authority = authority
             });
+
             var response = client.Execute(request);
-            var result = JsonConvert.DeserializeObject<DataVerifyResponse>(response.Content);
-
+            var result = JsonConvert.DeserializeObject<VerifyDataResponse>(response.Content);
             return result.Data;
-
-            //var jsonSerializer = new JsonSerializer();
-            //return jsonSerializer.Deserialize<VerificationResponse>(response);
         }
     }
 }

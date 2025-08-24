@@ -29,12 +29,12 @@
                     <div class="page-content-wrapper">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6">
-                                @if (Model.LoginMessage != null)
-                                {
-                                    <div class="alert alert-danger">@Model.LoginMessage</div>
-                                }
                                 <form method="post" asp-page-handler="Login">
                                     <div class="login-form">
+                                        @if (Model.LoginMessage != null)
+                                        {
+                                            <div class="alert alert-danger">@Model.LoginMessage</div>
+                                        }
                                         <h4 class="login-title">ورود</h4>
                                         <div class="row">
                                             <div class="col-md-12 col-12">
@@ -45,12 +45,12 @@
                                                 <label>رمز عبور</label>
                                                 <input type="password" name="Password" placeholder="رمز عبور">
                                             </div>
-@*                                             <div class="col-sm-6">
+                                            @*                                             <div class="col-sm-6">
 
-                                                <div class="check-box d-inline-block ml-0 ml-md-2">
-                                                    <input type="checkbox" id="remember_me">
-                                                    <label for="remember_me">Remember me</label>
-                                                </div>
+                                            <div class="check-box d-inline-block ml-0 ml-md-2">
+                                            <input type="checkbox" id="remember_me">
+                                            <label for="remember_me">Remember me</label>
+                                            </div>
 
                                             </div> *@
 

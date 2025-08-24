@@ -111,6 +111,7 @@ namespace AccountManagement.Application
             {
                 Fullname = account.Fullname,
                 Mobile = account.Mobile,
+                ProfilePhoto = account.ProfilePhoto,
             };
         }
     }

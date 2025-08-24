@@ -5,13 +5,8 @@
         public int Code { get; set; }
         public string Authority { get; set; }
     }
-    public class DataResponse
+    public class PaymentDataResponse
     {
         public PaymentResponse Data { get; set; }
-    }
-    public class DataVerifyResponse
-    {
-        public VerificationResponse Data { get; set; }
-
     }
 }

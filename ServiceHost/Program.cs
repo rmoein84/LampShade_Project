@@ -3,20 +3,14 @@ using _0_Framework.Application.Email;
 using _0_Framework.Application.Sms;
 using _0_Framework.Application.ZarinPal;
 using _0_Framework.Infrastructure;
-using _01_LampShade.Query.Contracts;
-using _01_LampShade.Query.Query;
 using AccountManagement.Infastructure.Configuration;
 using BlogManagement.Infrastructure.Configure;
 using CommentManagement.Infrastructure.Configuration;
 using DiscountManagement.Configuration;
 using InventoryManagement.Configuration;
-using InventoryManagement.Presentation.Api;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using ServiceHost;
 using ShopManagement.Configuration;
-using ShopManagement.Domain.Services;
-using ShopManagement.Presentation.Api;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -72,9 +66,8 @@ builder.Services.AddRazorPages()
         options.Conventions.AuthorizeAreaFolder("Administration", "/Shop", "Shop");
         options.Conventions.AuthorizeAreaFolder("Administration", "/Discounts", "Discount");
         options.Conventions.AuthorizeAreaFolder("Administration", "/Accounts", "Account");
-    })
-    .AddApplicationPart(typeof(ProductController).Assembly)
-    .AddApplicationPart(typeof(InventoryController).Assembly);
+    }
+    );
 
 var app = builder.Build();
 
